@@ -68,6 +68,7 @@ import * as authApi from '../authApi.js';
 import { Field } from '../../../shared/components/Field.jsx';
 import AuthShell from '../components/AuthShell.jsx';
 import { pwRules, emailRule } from '../authRules.js';
+import { COLLEGES } from '../college.js';
 
 export default function SignUp() {
   const nav = useNavigate();
@@ -118,7 +119,16 @@ export default function SignUp() {
         {msg && <div className="alert alert-error" role="alert">{msg}</div>}
         <Field id="name" label="Full name" error={err.name}><input id="name" className="input" value={f.name} onChange={set('name')} autoComplete="name" /></Field>
         {role === 'student'
-          ? <Field id="college" label="College / university" error={err.college}><input id="college" className="input" value={f.college} onChange={set('college')} /></Field>
+          ? <Field id="college" label="College / university" error={err.college}>
+              <select id="college" className="input" value={f.college} onChange={set('college')}>
+                <option value="">Select your college</option>
+                {COLLEGES.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
           : <Field id="org" label="Organization" error={err.organization}><input id="org" className="input" value={f.organization} onChange={set('organization')} /></Field>}
         <Field id="email" label="E-mail" error={err.email}><input id="email" className="input" type="email" value={f.email} onChange={set('email')} autoComplete="email" /></Field>
         <Field id="pw" label="Password" error={err.password} hint="8+ characters with upper-case, lower-case and a number">
